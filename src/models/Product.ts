@@ -7,4 +7,5 @@ export interface Product {
   status: ProductStatus;
   category: ProductCategory;
   price: number;
+  stock:number;
 }

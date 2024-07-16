@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, TextField, FormControlLabel, Switch } from '@mui/material';
 import { ProductCategory } from '../models/ProductCategory';
 
 const categories: ProductCategory[] = [
@@ -9,10 +9,13 @@ const categories: ProductCategory[] = [
 ];
 interface CategoryFilterProps {
   onCategoryChange: (event: SelectChangeEvent) => void;
+  onTextChange: (text: string) => void;
+  onStockChange: (inStock: boolean) => void;
 }
-const CategoryFilter = ({onCategoryChange}:CategoryFilterProps) => {
+const CategoryFilter = ({onCategoryChange,onTextChange,onStockChange}:CategoryFilterProps) => {
   return (
-    <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
+  <>
+    <FormControl fullWidth sx={{my:1,minWidth: 120 }}>
       <InputLabel id="categorySelectLabel">Select a category</InputLabel>
       <Select
         labelId="categorySelectLabel"
@@ -31,6 +34,18 @@ const CategoryFilter = ({onCategoryChange}:CategoryFilterProps) => {
         ))}
       </Select>
     </FormControl>
+    <TextField
+        fullWidth
+        label="Search"
+        variant="outlined"
+        onChange={(e) => onTextChange(e.target.value)}
+        sx={{ mb: 2 }}
+      />
+    <FormControlLabel
+        control={<Switch onChange={(e) => onStockChange(e.target.checked)} />}
+        label="In Stock Only"
+      />
+  </>
   );
 };
 

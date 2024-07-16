@@ -7,27 +7,9 @@ import { ProductStatus } from '../models/ProductStatus';
 const mock = new MockAdapter(axios, { delayResponse: 500 });
 
 const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: 'Apple',
-    status: ProductStatus.Active,
-    category: ProductCategory.Fruit,
-    price: 1.99,
-  },
-  {
-    id: 2,
-    name: 'Carrot',
-    status: ProductStatus.Inactive,
-    category: ProductCategory.Vegetables,
-    price: 0.99,
-  },
-  {
-    id: 3,
-    name: 'Chicken',
-    status: ProductStatus.Active,
-    category: ProductCategory.Meat,
-    price: 5.49,
-  },
+  { id: 1, name: 'Apple', status: ProductStatus.Active, category: ProductCategory.Fruit, price: 1.99, stock: 100 },
+  { id: 2, name: 'Banana', status: ProductStatus.Active, category: ProductCategory.Fruit, price: 0.99, stock: 0 },
+  { id: 3, name: 'Carrot', status: ProductStatus.Inactive, category: ProductCategory.Vegetables, price: 1.49, stock: 50 },
 ];
 
 mock.onGet('/api/products').reply(200, mockProducts);
