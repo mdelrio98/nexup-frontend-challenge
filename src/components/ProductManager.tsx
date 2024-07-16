@@ -1,31 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { Grid, Container, CircularProgress, Alert,SelectChangeEvent } from "@mui/material";
+import { Product } from "../models/Product";
 import CategoryFilter from "./CategoryFilter";
 import ProductList from "./ProductList";
-import axios, { AxiosResponse } from "axios";
-import { Product } from "../models/Product";
-import { Grid, Container, CircularProgress, Alert } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { FilterCategory, ProductCategory } from "../models/ProductCategory";
 
-const fetchProducts = async (): Promise<AxiosResponse<Product[]>> => {
-  return await axios.get<Product[]>("/api/products");
+const fetchProducts = (): Promise<AxiosResponse<Product[]>> => {
+  return axios.get<Product[]>("/api/products");
 };
 const ProductManager = () => {
+  const [selectedCategory,setSelectedCategory] = useState<FilterCategory>('All');
   const { data:productList, isLoading, isError } = useQuery<AxiosResponse<Product[]>>({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
 
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    setSelectedCategory(event.target.value as ProductCategory);
+  };
   if (isLoading) return <CircularProgress />;
   if (isError) return <Alert severity="error">Error fetching products</Alert>;
 
   return (
-    <Container>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <CategoryFilter />
+    <Container maxWidth='lg'>
+      <Grid container spacing={3} minWidth='300px' >
+        <Grid item xs={12} width='100%'>
+          <CategoryFilter onCategoryChange={handleCategoryChange}/>
         </Grid>
-        <Grid item xs={12}>
-          <ProductList productList={productList?.data || []} />
+        <Grid item xs={12} width='100%'>
+          <ProductList productList={productList?.data || []} category={selectedCategory}/>
         </Grid>
       </Grid>
     </Container>

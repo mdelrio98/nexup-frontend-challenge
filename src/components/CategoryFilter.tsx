@@ -2,17 +2,15 @@ import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 import { ProductCategory } from '../models/ProductCategory';
 
-const CategoryFilter = () => {
-  const categories: ProductCategory[] = [
-    ProductCategory.Fruit,
-    ProductCategory.Vegetables,
-    ProductCategory.Meat,
-  ];
-
-  const handleCategoryChange = (event: SelectChangeEvent) => {
-    const selectedCategory = event.target.value as ProductCategory;
-  };
-
+const categories: ProductCategory[] = [
+  ProductCategory.Fruit,
+  ProductCategory.Vegetables,
+  ProductCategory.Meat,
+];
+interface CategoryFilterProps {
+  onCategoryChange: (event: SelectChangeEvent) => void;
+}
+const CategoryFilter = ({onCategoryChange}:CategoryFilterProps) => {
   return (
     <FormControl fullWidth sx={{ m: 1, minWidth: 120 }}>
       <InputLabel id="categorySelectLabel">Select a category</InputLabel>
@@ -20,7 +18,8 @@ const CategoryFilter = () => {
         labelId="categorySelectLabel"
         id="categorySelect"
         label="Select a category"
-        onChange={handleCategoryChange}
+        sx={{ width: '100%'}}
+        onChange={onCategoryChange}
         defaultValue="All"
         fullWidth
       >

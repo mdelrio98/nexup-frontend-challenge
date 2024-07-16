@@ -4,3 +4,5 @@ export enum ProductCategory {
   Vegetables = "Vegetables",
   Meat = "Meat",
 }
+
+export type FilterCategory = ProductCategory | 'All';

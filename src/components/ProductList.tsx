@@ -1,17 +1,19 @@
 
 import React from "react";
+import { Grid, Paper, Typography, Box } from "@mui/material";
 import { Product } from "../models/Product";
 import { ProductStatus } from "../models/ProductStatus";
-import { Grid, Paper, Typography, Box } from "@mui/material";
+import { ProductCategory } from "../models/ProductCategory";
 
 interface ProductListProps {
   productList: Product[];
+  category: ProductCategory | 'All';
 }
 
-const ProductList = ({ productList }:ProductListProps) => {
+const ProductList = ({ productList,category }:ProductListProps) => {
   return (
-    <Grid container spacing={2}>
-      {productList.map((product) => (
+    <Grid container spacing={2} width={{sm:'100%',md:'500px'}} sx={{ minHeight: '400px', overflowY: 'auto' }}>
+      {productList.filter(product => category === 'All' ||product.category === category).map((product) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
           <Paper elevation={3} style={{ padding: "20px" }}>
             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
