@@ -1,13 +1,30 @@
-import React from 'react';
-import { Product } from '../models/Product';
+
+import React from "react";
+import { Product } from "../models/Product";
+import { ProductStatus } from "../models/ProductStatus";
+import { Grid, Paper, Typography, Box } from "@mui/material";
 
 interface ProductListProps {
   productList: Product[];
 }
 
-export const ProductList: React.FC<ProductListProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  productList,
-}) => {
-  return <div />;
+const ProductList = ({ productList }:ProductListProps) => {
+  return (
+    <Grid container spacing={2}>
+      {productList.map((product) => (
+        <Grid item key={product.id} xs={12} sm={6} md={4}>
+          <Paper elevation={3} style={{ padding: "20px" }}>
+            <Typography variant="subtitle1" color="textSecondary" gutterBottom>
+              Estado: <Box component="span" color={product.status === ProductStatus.Active ? "success.main" : "error.main"}>{product.status}</Box>
+            </Typography>
+            <Typography variant="h5" gutterBottom>{product.name}</Typography>
+            <Typography variant="body2" color="textSecondary" gutterBottom>Categoría: {product.category}</Typography>
+            <Typography variant="body1">Precio: ${product.price.toFixed(2)}</Typography>
+          </Paper>
+        </Grid>
+      ))}
+    </Grid>
+  );
 };
+
+export default ProductList;
