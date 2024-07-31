@@ -12,6 +12,26 @@ const mockProducts: Product[] = [
   { id: 3, name: 'Carrot', status: ProductStatus.Inactive, category: ProductCategory.Vegetables, price: 1.49, stock: 50 },
 ];
 
-mock.onGet('/api/products').reply(200, mockProducts);
+mock.onGet('/api/products').reply(config => {
+  const { category, search, inStock } = config.params;
+  
+  let filteredProducts = mockProducts;
+
+  if (category && category !== 'All') {
+    filteredProducts = filteredProducts.filter(product => product.category === category);
+  }
+
+  if (search) {
+    filteredProducts = filteredProducts.filter(product => 
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  if (inStock === true) {
+    filteredProducts = filteredProducts.filter(product => product.stock > 0);
+  }
+
+  return [200, filteredProducts];
+});
 
 export default mock;
